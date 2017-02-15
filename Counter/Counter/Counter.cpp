@@ -15,6 +15,7 @@ int main() {
 	char keys[] = { '1','2','3','4','5','6','7','8','9' };
 	int numKeys = 9;
 	char exit = '0';
+	char pause = '-';
 
 	char input = ' ';
 
@@ -27,7 +28,10 @@ int main() {
 	_strdate_s(date);
 
 	bool Timer = false;
-	time_t startTime;
+	bool isPaused = false;
+	time_t startTime, endTime, startPause, endPause, totalPause;
+
+	totalPause = 0;
 
 	string filename = "Stats.txt";
 	std::ofstream outfile;
@@ -55,12 +59,24 @@ int main() {
 				}
 				counts[i]++;
 				cout << "Running Total for " << labels[i].c_str() << ": " << counts[i] << endl;
+				if (isPaused) {
+					endPause = time(NULL);
+					totalPause += (endPause - startPause);
+					isPaused = false;
+					cout << "Unpaused with " << totalPause << " total seconds paused." << endl;
+				}
+			}
+			else if (Timer && !isPaused && input == pause) {
+				isPaused = true;
+				startPause = time(NULL);
+				cout << "Paused. . ." << endl;
 			}
 		}
-		
 	}
 
-	outfile << date << "," << (time(NULL)-startTime);
+	endTime = time(NULL);
+
+	outfile << date << "," << ((endTime-startTime) - totalPause);
 	for (int i = 0; i < numLabels; i++) {
 		outfile << "," << counts[i];
 	}
