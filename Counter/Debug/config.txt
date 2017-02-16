@@ -1,0 +1,8 @@
+#This is where the counters are set up
+#Lines starting with a '#' are comments
+#Each line should be formatted as follows:
+#<Counter_Name>,<Key>
+__EXIT__,0
+__PAUSE__,-
+Okay,1
+Alright,2

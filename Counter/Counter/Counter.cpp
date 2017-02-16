@@ -2,12 +2,16 @@
 #include <conio.h>
 #include <fstream>
 #include <time.h>
+#include <string>
 
 using namespace std;
 
-inline bool file_exists(std::string& name);
+inline bool fileExists(std::string& name);
+void displayPrompt();
 
 int main() {
+
+	displayPrompt();
 
 	string labels[] = {"Okay", "Alright" };
 	int numLabels = 2;
@@ -36,7 +40,7 @@ int main() {
 	string filename = "Stats.txt";
 	std::ofstream outfile;
 
-	if (file_exists(filename)) {
+	if (fileExists(filename)) {
 		outfile.open("Stats.txt", std::ios_base::app);
 	}
 	else {
@@ -85,7 +89,19 @@ int main() {
 	return 0;
 }
 
-inline bool file_exists(std::string& name) {
+inline bool fileExists(string& name) {
 	ifstream f(name.c_str());
 	return f.good();
+}
+
+void displayPrompt()
+{
+	string promptFile = "prompt.txt";
+	string line;
+	ifstream file;
+	file.open(promptFile);
+	while (getline(file, line)) {
+		cout << line << endl;
+	}
+	file.close();
 }
